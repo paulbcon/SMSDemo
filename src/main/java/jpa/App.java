@@ -1,4 +1,4 @@
-package com.perscholas;
+package jpa;
 
 /**
  * Hello world!

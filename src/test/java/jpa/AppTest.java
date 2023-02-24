@@ -1,4 +1,4 @@
-package com.perscholas;
+package jpa;
 
 import static org.junit.Assert.assertTrue;
 
