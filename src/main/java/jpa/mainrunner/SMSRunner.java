@@ -69,27 +69,32 @@ public class SMSRunner {
     }
 
     private boolean studentLogin() {
-        out.print("Enter your email address: ");
-        String email = sin.next();
-        out.print("Enter your password: ");
-        String password = sin.next();
+        try {
+            out.print("Enter your email address: ");
+            String email = sin.next();
+            out.print("Enter your password: ");
+            String password = sin.next();
 
-        boolean retValue = studentService.validateStudent(email, password);
+            boolean retValue = studentService.validateStudent(email, password);
 
-        if (retValue) {
-            List<Course> courses = studentService.getStudentCourses(email);
-            List<Student> students = studentService.getStudentByEmail(email);
-            if (students != null) {
-                currentStudent = students.get(0);
+            if (retValue) {
+                List<Course> courses = studentService.getStudentCourses(email);
+                List<Student> students = studentService.getStudentByEmail(email);
+                if (students != null) {
+                    currentStudent = students.get(0);
+                }
+                // System.out.println(courses);
+                out.println("Classes for: " + currentStudent.getName());
+                out.println("-----------------------------------------");
+                for (Course course : courses) {
+                    out.println(course);
+                }
+                return true;
+            } else {
+                out.println("User Validation failed. GoodBye!");
+                return false;
             }
-            // System.out.println(courses);
-            out.println("Classes for: " + currentStudent.getName());
-            out.println("-----------------------------------------");
-            for (Course course : courses) {
-                out.println(course);
-            }
-            return true;
-        } else {
+        }catch (Exception e) {
             out.println("User Validation failed. GoodBye!");
             return false;
         }
@@ -103,31 +108,36 @@ public class SMSRunner {
 
         switch (sin.nextInt()) {
             case 1:
-                List<Course> allCourses = courseService.getAllCourses();
-                List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getEmail());
-                allCourses.removeAll(studentCourses);
-                out.printf("%5s%15S%15s\n", "ID", "Course", "Instructor");
-                for (Course course : allCourses) {
-                    out.println(course);
-                }
-                out.println();
-                out.print("Enter Course Number: ");
-                int number = sin.nextInt();
-                Course newCourse = courseService.getCourseById(number).get(0);
-
-                if (newCourse != null) {
-                    studentService.registerStudentToCourse(currentStudent.getEmail(), newCourse);
-                    Student temp = studentService.getStudentByEmail(currentStudent.getEmail()).get(0);
-
-                    StudentCourseService scService = new StudentCourseService();
-                    List<Course> sCourses = scService.getAllStudentCourses(temp.getEmail());
-
-
-                    out.println("Classes for: " + currentStudent.getName());
-                    out.println("-----------------------------------------");
-                    for (Course course : sCourses) {
+                try {
+                    List<Course> allCourses = courseService.getAllCourses();
+                    List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getEmail());
+                    allCourses.removeAll(studentCourses);
+                    out.printf("%5s%15S%15s\n", "ID", "Course", "Instructor");
+                    for (Course course : allCourses) {
                         out.println(course);
                     }
+                    out.println();
+                    out.print("Enter Course Number: ");
+                    int number = sin.nextInt();
+                    Course newCourse = courseService.getCourseById(number).get(0);
+
+                    if (newCourse != null) {
+                        studentService.registerStudentToCourse(currentStudent.getEmail(), newCourse);
+                        Student temp = studentService.getStudentByEmail(currentStudent.getEmail()).get(0);
+
+                        StudentCourseService scService = new StudentCourseService();
+                        List<Course> sCourses = scService.getAllStudentCourses(temp.getEmail());
+
+
+                        out.println("Classes for: " + currentStudent.getName());
+                        out.println("-----------------------------------------");
+                        for (Course course : sCourses) {
+                            out.println(course);
+                        }
+                        registerMenu();
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Course number not found!");
                     registerMenu();
                 }
                 break;

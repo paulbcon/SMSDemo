@@ -12,6 +12,8 @@ import org.hibernate.query.SelectionQuery;
 import javax.persistence.NoResultException;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 public class StudentService implements StudentDAO {
     SessionFactory factory = new Configuration().configure().buildSessionFactory();
     Session session = factory.openSession();
@@ -66,24 +68,26 @@ public class StudentService implements StudentDAO {
     @Override
     public void registerStudentToCourse(String email, Course course) {
         try {
-            Transaction t = session.beginTransaction();
-            SelectionQuery<?> qry = session.createSelectionQuery(
-                    "FROM Student s WHERE s.email=?1");
-            Student stud1 = (Student) qry.setParameter(1, email)
-                    .getSingleResult();
 
-            String hqlInsert = "insert into student_course (email, id) VALUES (?,?)";
-            session.createNativeQuery(hqlInsert, Course.class)
-                    .setParameter(1, email)
-                    .setParameter(2, course.getId())
-                    .executeUpdate();
-            t.commit();
+                Transaction t = session.beginTransaction();
+                SelectionQuery<?> qry = session.createSelectionQuery(
+                        "FROM Student s WHERE s.email=?1");
+                Student stud1 = (Student) qry.setParameter(1, email)
+                        .getSingleResult();
 
-            System.out.println(stud1.getName() + " is now registered to course: " + course.getName());
+                String hqlInsert = "insert into student_course (email, id) VALUES (?,?)";
+                session.createNativeQuery(hqlInsert, Course.class)
+                        .setParameter(1, email)
+                        .setParameter(2, course.getId())
+                        .executeUpdate();
+                t.commit();
 
-//            }
-        } catch (NoResultException nr) {
-            System.out.println(nr.getMessage());
+                System.out.println(stud1.getName() + " is now registered to course: " + course.getName());
+
+
+        } catch (Exception nr) {
+
+            System.out.println("You are already registered to this course.");
         }
 
     }
