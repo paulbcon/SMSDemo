@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -24,27 +25,27 @@ public class StudentServiceTest extends TestCase {
 
     @BeforeEach
     public void setUp() throws Exception {
-        stud1 = new Student("ew@gmail.com","Ezra Williams","password123");
-        stud2 = new Student("an@gmail.com","Alex Nobito","password456");
-        stud3 = new Student("ra@gmail.com","Randolf Alexis","password789");
+        stud1 = new Student("ew@gmail.com", "Ezra Williams", "password123");
+        stud2 = new Student("an@gmail.com", "Alex Nobito", "password456");
+        stud3 = new Student("ra@gmail.com", "Randolf Alexis", "password789");
         studentService = new StudentService();
     }
 
     @Test
     public void testGetAllStudents() {
-       List<Student> expected = new ArrayList<>();
-       expected.add(stud1);
-       expected.add(stud2);
-       expected.add(stud3);
+        List<Student> expected = new ArrayList<>();
+        expected.add(stud1);
+        expected.add(stud2);
+        expected.add(stud3);
 
-       List<Student> actual = new ArrayList<>();
-       Student  actstud1 = new Student("ew@gmail.com","Ezra Williams","password123");
-       Student  actstud2 = new Student("an@gmail.com","Alex Nobito","password456");
-       Student  actstud3 = new Student("ra@gmail.com","Randolf Alexis","password789");
+        List<Student> actual = new ArrayList<>();
+        Student actstud1 = new Student("ew@gmail.com", "Ezra Williams", "password123");
+        Student actstud2 = new Student("an@gmail.com", "Alex Nobito", "password456");
+        Student actstud3 = new Student("ra@gmail.com", "Randolf Alexis", "password789");
 
-       actual.add(actstud1);
-       actual.add(actstud2);
-       actual.add(actstud3);
+        actual.add(actstud1);
+        actual.add(actstud2);
+        actual.add(actstud3);
 
         //1. Test equal.
         assertThat(actual, is(expected));
@@ -80,7 +81,7 @@ public class StudentServiceTest extends TestCase {
 
     @Test
     public void testValidateStudent() {
-        assertTrue(studentService.validateStudent("abc@test.com","password"));
+        assertTrue(studentService.validateStudent("abc@test.com", "password"));
     }
 
     @Test

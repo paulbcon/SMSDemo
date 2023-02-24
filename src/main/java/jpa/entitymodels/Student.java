@@ -1,28 +1,30 @@
 package jpa.entitymodels;
 
 import jakarta.persistence.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name="student")
+@Table(name = "student")
 public class Student {
-
-   @Id
-   @Column(name="email",length=50)
-   private String email;
-   @Column(unique = true, nullable = false, length = 50)
-   private String name;
-   @Column(unique = true, nullable = false, length = 50)
-   private String password;
-
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Student_Course",
-            joinColumns = { @JoinColumn(name = "email") },
-            inverseJoinColumns = { @JoinColumn(name = "id") })
+            joinColumns = {@JoinColumn(name = "email")},
+            inverseJoinColumns = {@JoinColumn(name = "id")})
     List<Course> course = new ArrayList<>();
+    @Id
+    @Column(name = "email", length = 50)
+    private String email;
+    @Column(unique = true, nullable = false, length = 50)
+    private String name;
+    @Column(unique = true, nullable = false, length = 50)
+    private String password;
 
-    public Student() {}
+    public Student() {
+    }
 
     public Student(String email, String name, String password) {
         this.email = email;
@@ -57,6 +59,7 @@ public class Student {
     public List<Course> getCourse() {
         return course;
     }
+
     public void setCourses(List<Course> course) {
         this.course = course;
     }

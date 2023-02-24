@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto"> update </property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/sbadatabase</property>
@@ -14,8 +14,8 @@
         <!--MySQL DB dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <!-- Echo all executed SQL to stdout -->
-        <property name="hibernate.show_sql" >false </property>
-        <property name="hibernate.format_sql" >false </property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
 
         <!-- Validate the database schema on startup
         <property name="hbm2ddl.auto">validate</property>-->

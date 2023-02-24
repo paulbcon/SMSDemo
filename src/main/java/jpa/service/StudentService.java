@@ -8,11 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.SelectionQuery;
+
 import javax.persistence.NoResultException;
 import java.util.List;
-
-
-import static java.util.Objects.isNull;
 
 public class StudentService implements StudentDAO {
     SessionFactory factory = new Configuration().configure().buildSessionFactory();
@@ -25,7 +23,7 @@ public class StudentService implements StudentDAO {
             String hql = "FROM Student s";
             SelectionQuery<?> query = session.createSelectionQuery(hql);
             results = (List<Student>) query.getResultList();
-        } catch(NoResultException nr) {
+        } catch (NoResultException nr) {
             System.out.println(nr.getMessage());
         }
 
@@ -38,7 +36,7 @@ public class StudentService implements StudentDAO {
         try {
             String hql = "FROM Student s WHERE s.email = ?1";
             SelectionQuery<?> query = session.createSelectionQuery(hql);
-            results = (List<Student>) query.setParameter(1,email).getResultList();
+            results = (List<Student>) query.setParameter(1, email).getResultList();
 
         } catch (NoResultException nr) {
             System.out.println(nr.getMessage());
@@ -53,9 +51,9 @@ public class StudentService implements StudentDAO {
             SelectionQuery<?> query = session.createSelectionQuery(
                     "FROM Student s WHERE s.email = ?1 AND s.password = ?2");
             query.setParameter(1, email)
-                    .setParameter(2,password)
+                    .setParameter(2, password)
                     .getSingleResult();
-           // System.out.println(results);
+            // System.out.println(results);
             validate = true;
 
         } catch (NoResultException nr) {
@@ -69,23 +67,23 @@ public class StudentService implements StudentDAO {
     public void registerStudentToCourse(String email, Course course) {
         try {
             Transaction t = session.beginTransaction();
-                SelectionQuery<?> qry = session.createSelectionQuery(
-                        "FROM Student s WHERE s.email=?1");
-                Student stud1 = (Student) qry.setParameter(1, email)
-                        .getSingleResult();
+            SelectionQuery<?> qry = session.createSelectionQuery(
+                    "FROM Student s WHERE s.email=?1");
+            Student stud1 = (Student) qry.setParameter(1, email)
+                    .getSingleResult();
 
             String hqlInsert = "insert into student_course (email, id) VALUES (?,?)";
-                    session.createNativeQuery(hqlInsert,Course.class)
-                    .setParameter(1,email)
-                    .setParameter(2,course.getId())
+            session.createNativeQuery(hqlInsert, Course.class)
+                    .setParameter(1, email)
+                    .setParameter(2, course.getId())
                     .executeUpdate();
-                t.commit();
+            t.commit();
 
-                System.out.println(stud1.getName()+ " is now registered to course: "+ course.getName());
+            System.out.println(stud1.getName() + " is now registered to course: " + course.getName());
 
 //            }
         } catch (NoResultException nr) {
-                System.out.println(nr.getMessage());
+            System.out.println(nr.getMessage());
         }
 
     }
@@ -100,7 +98,7 @@ public class StudentService implements StudentDAO {
             results = (List<Course>) query.setParameter(1, email)
                     .getResultList();
 
-        } catch(NoResultException nr) {
+        } catch (NoResultException nr) {
             System.out.println(nr.getMessage());
         }
         return results;

@@ -1,21 +1,21 @@
 package jpa.mainrunner;
 
-import static java.lang.System.out;
-
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-
 import jpa.entitymodels.Course;
 import jpa.entitymodels.Student;
 import jpa.service.CourseService;
 import jpa.service.StudentCourseService;
 import jpa.service.StudentService;
 
-/**1
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+
+import static java.lang.System.out;
+
+/**
+ * 1
  *
  * @author Harry
- *
  */
 public class SMSRunner {
 
@@ -74,7 +74,7 @@ public class SMSRunner {
         out.print("Enter your password: ");
         String password = sin.next();
 
-        boolean retValue = studentService.validateStudent(email,password);
+        boolean retValue = studentService.validateStudent(email, password);
 
         if (retValue) {
             List<Course> courses = studentService.getStudentCourses(email);
@@ -82,8 +82,8 @@ public class SMSRunner {
             if (students != null) {
                 currentStudent = students.get(0);
             }
-           // System.out.println(courses);
-            out.println("Classes for: "+currentStudent.getName());
+            // System.out.println(courses);
+            out.println("Classes for: " + currentStudent.getName());
             out.println("-----------------------------------------");
             for (Course course : courses) {
                 out.println(course);
@@ -123,7 +123,7 @@ public class SMSRunner {
                     List<Course> sCourses = scService.getAllStudentCourses(temp.getEmail());
 
 
-                    out.println("Classes for: "+currentStudent.getName());
+                    out.println("Classes for: " + currentStudent.getName());
                     out.println("-----------------------------------------");
                     for (Course course : sCourses) {
                         out.println(course);

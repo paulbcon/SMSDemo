@@ -34,7 +34,7 @@ public class CourseService implements CourseDAO {
         try {
             String hql = "FROM Course c WHERE c.id = ?1";
             SelectionQuery<?> query = session.createSelectionQuery(hql);
-            results = (List<Course>) query.setParameter(1,courseNumber).getResultList();
+            results = (List<Course>) query.setParameter(1, courseNumber).getResultList();
         } catch (NoResultException nr) {
             System.out.println(nr.getMessage());
         }
